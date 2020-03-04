@@ -1,0 +1,32 @@
+#!/bin/sh
+IF_WAIT_DELAY=5
+IFACE=usb0
+mkdir /config/usb_gadget/g1
+echo "0x18d1" > /config/usb_gadget/g1/idVendor
+echo "0x0223" > /config/usb_gadget/g1/bcdDevice
+echo "0x200" > /config/usb_gadget/g1/bcdUSB
+mkdir /config/usb_gadget/g1/strings/0x409
+echo "SANDCASTLE-I7" > /config/usb_gadget/g1/strings/0x409/serialnumber
+echo "Foxconn-China" > /config/usb_gadget/g1/strings/0x409/manufacturer
+echo "Phone" > /config/usb_gadget/g1/strings/0x409/product
+mkdir /config/usb_gadget/g1/functions/ecm.gs0
+mkdir /config/usb_gadget/g1/configs/b.1
+ln -s /config/usb_gadget/g1/functions/ecm.gs0 /config/usb_gadget/g1/configs/b.1/f1
+echo "20c100000.usbdev" > /config/usb_gadget/g1/UDC
+
+exit 0
+if [ "${IF_WAIT_DELAY}" -a ! -e "/sys/class/net/${IFACE}" ]; then
+    printf "Waiting for interface %s to appear" "${IFACE}"
+    while [ ${IF_WAIT_DELAY} -gt 0 ]; do
+        if [ -e "/sys/class/net/${IFACE}" ]; then
+            printf "\n"
+            exit 0
+        fi
+        sleep 1
+        printf "."
+        : $((IF_WAIT_DELAY -= 1))
+    done
+    printf " timeout!\n"
+    exit 1
+fi
+

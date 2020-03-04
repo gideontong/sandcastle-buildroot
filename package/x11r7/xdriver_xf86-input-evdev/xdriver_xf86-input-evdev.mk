@@ -17,6 +17,14 @@ XDRIVER_XF86_INPUT_EVDEV_DEPENDENCIES = \
 	mtdev \
 	xorgproto \
 	xserver_xorg-server \
-	udev
+
+# autoreconf required because of patched configure.ac, see
+# xdriver_xf86-input-evdev-0001-Enable-compile-wihtout-udev-dependency.patch
+XDRIVER_XF86_INPUT_EVDEV_AUTORECONF = YES
+
+ifeq ($(BR2_PACKAGE_UDEV),y)
+XDRIVER_XF86_INPUT_EVDEV_DEPENDENCIES += udev
+endif
+
 
 $(eval $(autotools-package))

@@ -1,0 +1,10 @@
+auto usb0
+iface usb0 inet static
+pre-up /etc/network/usb0-up
+address 172.16.1.1
+netmask 255.255.255.0
+broadcast 172.16.1.255
+
+auto wlan0
+iface wlan0 inet dhcp
+pre-up /etc/network/wlan0-up

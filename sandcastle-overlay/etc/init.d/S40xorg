@@ -14,8 +14,9 @@ XORG_ARGS=":0.0 vt01 -s 0 -noreset -allowMouseOpenFail -retro"
 
 start() {
 	printf "Starting Xorg: "
+	export DISPLAY=:0
 	start-stop-daemon -S -q -b -m -p $PIDFILE --exec $BIN -- $XORG_ARGS
-	[ $? = 0 ] && sleep 3 && echo "OK" || echo "FAIL"
+	[ $? = 0 ] && sleep 3 && /usr/bin/feh --bg-center '/usr/share/feh/images/clogo.png' && echo "OK" || echo "FAIL"
 }
 
 stop() {

@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# Starts hx-touchd
+#
+
+start() {
+	HX_TOUCHD_ARGS="/mnt/usr/share/firmware/multitouch/D10.mtprops"
+	if [ -f ${HX_TOUCHD_ARGS} ]
+	then
+		printf "Starting hx-touchd: "
+		umask 077
+
+		start-stop-daemon -S -b -q -p /var/run/hx-touchd.pid \
+			--exec /usr/bin/hx-touchd -- $HX_TOUCHD_ARGS
+		[ $? = 0 ] && echo "OK" || echo "FAIL"
+	fi
+}
+stop() {
+	printf "Stopping hx-touchd: "
+	start-stop-daemon -K -q -p /var/run/hx-touchd.pid
+	[ $? = 0 ] && echo "OK" || echo "FAIL"
+}
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart|reload)
+  	restart
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
