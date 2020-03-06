@@ -4,11 +4,11 @@
 #
 ################################################################################
 
-HXSYSCFG_VERSION = 1.1
-HXSYSCFG_SITE = syscfg-1.1.tar.gz
+HXSYSCFG_VERSION = 1.2
+HXSYSCFG_SOURCE = hxsyscfg12tar.gz
+HXSYSCFG_SITE = https://projectsandcastle.org/s
 HXSYSCFG_LICENSE = GPL-2.0
 HXSYSCFG_LICENSE_FILES = LICENSE
-#HXSYSCFG_DEPENDENCIES = libzlib libfuse3
 
 HXSYSCFG_MAKE_ENV = \
 	$(TARGET_MAKE_ENV) \
